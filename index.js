@@ -1,19 +1,34 @@
+
+currentoffset = 0;
+
+let observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+        if (entry.isIntersecting){
+            entry.target.computedStyleMap.backgroundColor = "blue";
+            currentoffset+=50;
+           if(currentoffset < 1304) fetchpokemons(currentoffset);
+        }
+    })
+})
+
 let sectionElm = document.createElement("section")
 sectionElm.class = "pokelist"
 
-fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
-    .then(function (response) {
-        return response.json()
-    }).then(
-        function (data) {
-            console.log(data.results);
-            let divElm = document.createElement("div");
-            divElm.class = "pokemons"
-            divElm.innerHTML = data.results.map(function (pokemon) {
 
-                let id = pokemon.url.slice(0, -1).split("/").pop()
-                console.log(id);
-                return `
+function fetchpokemons(offset) {
+    fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=50`)
+        .then(function (response) {
+            return response.json()
+        }).then(
+            function (data) {
+                console.log(data.results);
+                let divElm = document.createElement("div");
+                divElm.class = "pokemons"
+                divElm.innerHTML = data.results.map(function (pokemon) {
+
+                    let id = pokemon.url.slice(0, -1).split("/").pop()
+                    //console.log(id);
+                    return `
                
              <article>
               <a href="detail.html?url=${pokemon.url}">
@@ -25,16 +40,21 @@ fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
            
         `
 
-            }).join("")
+                }).join("")
 
-            sectionElm.append(divElm)
-        }
-    )
+              
+                sectionElm.append(divElm)
+                let observedPokemon = sectionElm.querySelector("article:nth-last-child(5)");
+                console.log("observedPokemon:"+observedPokemon);
+                observer.observe(observedPokemon);
+            }
+        )
 
+    document.querySelector("main").append(sectionElm)
 
+}
 
-document.querySelector("main").append(sectionElm)
-
+fetchpokemons(currentoffset);
 
 // function createCard(pokemon) {
 //     return `
