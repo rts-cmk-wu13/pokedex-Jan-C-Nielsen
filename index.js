@@ -1,19 +1,25 @@
 
 currentoffset = 0;
+let observedPokemon;
 
-let observer = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-        if (entry.isIntersecting){
-            entry.target.computedStyleMap.backgroundColor = "blue";
-            currentoffset+=50;
-           if(currentoffset < 1304) fetchpokemons(currentoffset);
+let options = {
+    threshold: 1
+}
+
+let observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+            observer.unobserve(entry.target);
+            currentoffset += 50;
+            if (currentoffset < 1304) fetchpokemons(currentoffset);
+
         }
     })
-})
+}, options)
 
 let sectionElm = document.createElement("section")
-sectionElm.class = "pokelist"
-
+sectionElm.className = "pokelist"
+let divElm = document.createElement("div");
 
 function fetchpokemons(offset) {
     fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=50`)
@@ -22,9 +28,9 @@ function fetchpokemons(offset) {
         }).then(
             function (data) {
                 console.log(data.results);
-                let divElm = document.createElement("div");
-                divElm.class = "pokemons"
-                divElm.innerHTML = data.results.map(function (pokemon) {
+
+                divElm.className = "pokemons"
+                divElm.innerHTML += data.results.map(function (pokemon) {
 
                     let id = pokemon.url.slice(0, -1).split("/").pop()
                     //console.log(id);
@@ -38,19 +44,23 @@ function fetchpokemons(offset) {
     </a>
              </article>
            
-        `
+        ` }).join("")
 
-                }).join("")
-
-              
-                sectionElm.append(divElm)
-                let observedPokemon = sectionElm.querySelector("article:nth-last-child(5)");
-                console.log("observedPokemon:"+observedPokemon);
+                observedPokemon = sectionElm.querySelector(".pokemons article:nth-last-child(5)");
+                console.log("observedPokemon:" + observedPokemon);
                 observer.observe(observedPokemon);
+
             }
         )
 
-    document.querySelector("main").append(sectionElm)
+
+
+    document.querySelector("main").append(sectionElm);
+
+    sectionElm.append(divElm)
+
+
+
 
 }
 
