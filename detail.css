@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0 auto;
     padding: 0;
     width: 360px;
@@ -8,38 +8,87 @@
 .vertical-line {
     width: 1px;
     /* Adjust the width as needed */
-  
+
     height: 2em;
     /* Adjust the height as needed */
-  
+
     background-color: #000;
     /* Change color if desired */
-  
-    margin: 0;
+    /* margin: 0; */
     /* Center the line horizontally */
-  
+
     transform: rotate(180deg);
     /* Rotate the line to make it vertical */
-  
 }
 
-h2{
+main {
+    background-color: green;
+    padding-bottom: 2.5%;
+}
+
+p {
+    font-size: 10px;
+    margin-top: 2em;
+ 
+}
+
+.flavor_text{
+    width:90%;
+}
+
+.head__id {
+    color: white;
+    text-align: right;
+    font-size: 12px;
+}
+
+.head {
+    width: 90%;
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+}
+
+.head__name {
+    color: white;
+    font-size: 24px;
+}
+
+h2 {
+    font-size: 14px;
     text-align: center;
-    color: green;
+    font-weight: bold;
+    color: lightgreen;
     margin-top: 1em;
     margin-bottom: 1em;
 }
 
-.info{
+.info {
     display: flex;
-    justify-content: space-around;
+    /* justify-content: space-around; */
 }
 
-.types{
-    display:flex;
+img {
+    position: absolute;
+    width: 200px;
+    z-index: 100;
+    left: 41%;
 }
 
-.type{
+.card {
+    padding-top: 20%;
+    margin-top: 30%;
+    border-radius: 8px;
+    background-color: white;
+    width: 95%;
+    position: relative;
+}
+
+.types {
+    display: flex;
+}
+
+.type {
     color: white;
     background-color: purple;
     width: 20%;
@@ -47,8 +96,10 @@ h2{
     border-radius: 8px;
 }
 
-.infobox{
-    padding: 0 50px 0 0;
+.infobox {
+    /* padding: 0 5% 0 0; */
+    width: 20%;
+    margin-left: 10%;
     border-left: 0;
     border-top: 0;
     border-bottom: 0;
@@ -57,18 +108,31 @@ h2{
     border-color: black;
 }
 
-
-.stat{
-    display: flex;
+.moves {
+    list-style-type: none;
+    font-size: 10px;
+    margin-left: 10%;
 }
 
-.stat span{
+.stat {
+    display: flex;
+    font-size: 10px;
+    width: 80%;
+}
+
+.statname {
     width: 20%;
     text-align: right;
-    margin-right: 10%;
+    margin-right: 5%;
 }
 
-meter{
-    width: 70%;
-    margin-left: 10%;
+
+.statnumber {
+    width: 1%;
+    margin-left: 1%;
+}
+
+meter {
+    width: 20%;
+    /* margin-left: 10%; */
 }

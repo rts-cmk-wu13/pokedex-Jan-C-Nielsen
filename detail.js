@@ -37,58 +37,86 @@ function info(text1, text2) {
     <p>${text2}</p>
     </div>`;
 }
-
-function genHTML (data, flavor_text) {
+function genHTML(data, flavor_text) {
     let innerHTML = "";
     console.log(data);
     let divElm = document.createElement("div");
     let id = url.slice(0, -1).split("/").pop();
 
-    innerHTML = `
-    <p>${data.name}</p>
-     <p>${data.id}</p>
+    innerHTML = MakeHead(innerHTML, data, id);
 
-   <div> 
-   <img loading="lazy" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png" alt="">
-</div>
-   `
-    innerHTML += `<div class = "types">` + data.types.map(function (t) {
+    innerHTML = MakeCard(innerHTML, data);
+
+    innerHTML = MakeAbout(innerHTML, data, flavor_text);
+
+    innerHTML = MakeBasestat(innerHTML, data);
+
+    divElm.innerHTML = innerHTML;
+    //console.log("innerHTML:" + innerHTML);
+    sectionElm.append(divElm);
+}
+
+function MakeBasestat(innerHTML, data) {
+    innerHTML += `
+    <h2>Basestat</h2>
+    ${data.stats.map(function(s) {
         return `
-         <p class="type"> ${t.type.name}</p>
-     `
-    }).join("") + "</div>";
+        <div class="stat">
+          <span class="statname"> ${StatDic(s.stat.name)}</span>
+          <div class="vertical-line"></div>
+          <span class="statnumber">${("00" + s.base_stat).slice(-3)}</span>
+          <meter value=${s.base_stat / 100}> </meter>
+        </div>
+      `;
+    }).join("")}
+  `;
+    return innerHTML;
+}
 
+function MakeAbout(innerHTML, data, flavor_text) {
     innerHTML += `
     <h2>About</h2>
     <div>
-    <div class="info">
-  ${info(data.height, "height")}
-  ${info(data.weight, "weight")}
+      <div class="info">
+        ${info(data.height, "height")}
+        ${info(data.weight, "weight")}
+        <ul class="moves">
+          <li>${data.moves[0].move.name}</li>
+          <li>${data.moves[1].move.name}</li>
+        </ul>
+      </div>
+      <p class="flavor_text">${flavor_text}</p>
+    </div>
+  `;
+    return innerHTML;
+}
 
-<p>${data.moves[0].move.name}</p>
-<p>${data.moves[1].move.name}</p>
-</div>
-</div>
-<p>${flavor_text}</p>
-`
-    innerHTML += 
-    "<h2>Basestat</h2>" +
-    data.stats.map(function (s) {
+function MakeCard(innerHTML, data) {
+    innerHTML += `
+    <div class="card">
+      <div class="types">
+        ${data.types.map(function(t) {
         return `
-        <div>
-      
-        <div class="stat">
-<span> ${StatDic(s.stat.name)}</span>
-<div class = "vertical-line"></div>
-<span>${("00" + s.base_stat).slice(-3)}</span>
-<meter value=${s.base_stat / 100}> </meter>
-</div>
-</div>
-`
-    }).join("")
-    divElm.innerHTML = innerHTML;
-    //console.log("innerHTML:" + innerHTML);
-    sectionElm.append(divElm)
+            <p class="type"> ${t.type.name}</p>
+          `;
+    }).join("")}
+      </div>
+    
+  `;
+    return innerHTML;
+}
+
+function MakeHead(innerHTML, data, id) {
+    innerHTML = `
+    <div class="head">
+      <span class="head__name">${data.name}</span>
+      <span class="head__id">#${data.id}</span>
+    </div>
+    <div>
+      <img loading="lazy" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png" alt="">
+    </div>
+  `;
+    return innerHTML;
 }
 
 async function getPokemons(apiUrl) {
@@ -99,16 +127,11 @@ async function getPokemons(apiUrl) {
     x = await fetch(speciesUrl);
     let speciesData = await x.json();
     console.log(speciesData);
-    let flavor_text = speciesData.flavor_text_entries[0].flavor_text;
+    let flavor_text = speciesData.flavor_text_entries[0].flavor_text.replace("\n", "").replace("\f", "");
     console.log(flavor_text);
     genHTML(data, flavor_text);
-  }
+}
 
-
-// fetch(url)
-//     .then(function (response) {
-//         return response.json()
-//     }).then(data => genHTML(data));
 
 getPokemons(url);
 
