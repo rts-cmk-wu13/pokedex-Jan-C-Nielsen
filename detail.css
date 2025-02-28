@@ -21,6 +21,18 @@
     /* Rotate the line to make it vertical */
 }
 
+a{
+    text-decoration: none;
+}
+
+
+img {
+    position: absolute;
+    width: 200px;
+    z-index: 100;
+  
+}
+
 main {
     background-color: green;
     padding-bottom: 2.5%;

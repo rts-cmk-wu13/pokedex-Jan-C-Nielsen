@@ -37,6 +37,7 @@ function info(text1, text2) {
     <p>${text2}</p>
     </div>`;
 }
+
 function genHTML(data, flavor_text) {
     let innerHTML = "";
     console.log(data);
@@ -109,7 +110,7 @@ function MakeCard(innerHTML, data) {
 function MakeHead(innerHTML, data, id) {
     innerHTML = `
     <div class="head">
-      <span class="head__name">${data.name}</span>
+      <a href="index.html"><span class="head__name">&#x1F860;${data.name}</span></a>
       <span class="head__id">#${data.id}</span>
     </div>
     <div>
