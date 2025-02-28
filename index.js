@@ -39,7 +39,7 @@ function fetchpokemons(offset) {
              <article>
               <a href="detail.html?url=${pokemon.url}">
                <p><span>#${id}<span></p>
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png" alt="">
+                <img loading="lazy" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png" alt="">
   <h2>${pokemon.name}</h2>
     </a>
              </article>
